@@ -1,4 +1,4 @@
-package com.codingblocks.layouts
+package com.android.layouts
 
 import org.junit.Test
 

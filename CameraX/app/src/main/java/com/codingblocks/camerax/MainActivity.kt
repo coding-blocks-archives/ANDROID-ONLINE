@@ -1,9 +1,9 @@
 package com.codingblocks.camerax
 
 import android.content.pm.PackageManager
+import android.graphics.Matrix
 import android.os.Bundle
-import android.util.Rational
-import android.util.Size
+import android.view.Surface
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.AspectRatio
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun startCamera() {
         val previewConfig = PreviewConfig.Builder().apply {
             setTargetAspectRatio(AspectRatio.RATIO_16_9)
+            setLensFacing(CameraX.LensFacing.BACK)
         }.build()
 
         val preview = Preview(previewConfig)
@@ -46,10 +47,30 @@ class MainActivity : AppCompatActivity() {
         preview.setOnPreviewOutputUpdateListener {
             val parent = textureView.parent as ViewGroup
             parent.removeView(textureView)
-            parent.addView(textureView,0)
+            parent.addView(textureView, 0)
+            updateTransform();
             textureView.surfaceTexture = it.surfaceTexture
         }
 
-        CameraX.bindToLifecycle(this,preview)
+        CameraX.bindToLifecycle(this, preview)
+    }
+
+    private fun updateTransform() {
+        val matrix = Matrix()
+
+        val centerX = textureView.width / 2f
+        val centerY = textureView.height / 2f
+
+        val rotationDegress = when(textureView.display.rotation){
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> return
+        }
+
+        matrix.postRotate(-rotationDegress.toFloat(),centerX,centerY)
+
+        textureView.setTransform(matrix)
     }
 }
