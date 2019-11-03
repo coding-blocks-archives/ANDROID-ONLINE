@@ -41,22 +41,15 @@ class MainActivity : AppCompatActivity(), Executor {
 
     private fun startCamera() {
         val imageCaptureConfig = ImageCaptureConfig.Builder().apply {
-            setTargetAspectRatio(AspectRatio.RATIO_16_9)
             setCaptureMode(ImageCapture.CaptureMode.MAX_QUALITY)
         }.build()
 
         val imageCapture = ImageCapture(imageCaptureConfig)
-
+//
         captureImage.setOnClickListener {
             val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
-            imageCapture.takePicture(file, this, object : ImageCapture.OnImageSavedListener {
+            imageCapture.takePicture(file,this,object :ImageCapture.OnImageSavedListener{
                 override fun onImageSaved(file: File) {
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Image Captured ${file.absolutePath}",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-                    Log.i("IMAGECAPTURE", "Image Captured ${file.absolutePath}")
                 }
 
                 override fun onError(
@@ -64,21 +57,14 @@ class MainActivity : AppCompatActivity(), Executor {
                     message: String,
                     cause: Throwable?
                 ) {
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Error Capturing $message",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-                    Log.i("IMAGECAPTURE", "Error Capturing $message")
-
                 }
 
             })
-        }
+            }
 
         val previewConfig = PreviewConfig.Builder().apply {
             setTargetAspectRatio(AspectRatio.RATIO_16_9)
-            setLensFacing(CameraX.LensFacing.BACK)
+            setLensFacing(CameraX.LensFacing.FRONT)
         }.build()
 
         val preview = Preview(previewConfig)
@@ -91,7 +77,7 @@ class MainActivity : AppCompatActivity(), Executor {
             textureView.surfaceTexture = it.surfaceTexture
         }
 
-        CameraX.bindToLifecycle(this, preview, imageCapture)
+        CameraX.bindToLifecycle(this, preview,imageCapture)
     }
 
     private fun updateTransform() {
