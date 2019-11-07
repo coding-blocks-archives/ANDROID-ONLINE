@@ -2,8 +2,12 @@ package com.codingblocks.roomdb
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.room.Room
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             this,
             AppDatabase::class.java,
             "User.db"
-        ).allowMainThreadQueries()
+        )
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -24,20 +28,21 @@ class MainActivity : AppCompatActivity() {
 
 
         button.setOnClickListener {
-            db.userDao().insert(User("Pulkit Aggarwal","99827939278","Pitampura",20))
+            GlobalScope.launch(Dispatchers.IO) {
+                db.userDao().insert(User("Pulkit Aggarwal", "99827939278", "Pitampura", 20))
+            }
         }
-        button2.setOnClickListener {
-            val list = db.userDao().getAllUser()
-            if(list.isNotEmpty()){
-                with(list[0]){
-                    textView.text = name
+        db.userDao().getAllUser().observe(this, Observer { list ->
+            if (list.isNotEmpty()) {
+                with(list[list.size-1]) {
+                    textView.text = name + id
                     textView2.text = age.toString()
                     textView3.text = address
                     textView4.text = number
 
                 }
             }
-        }
+        })
 
 
 
