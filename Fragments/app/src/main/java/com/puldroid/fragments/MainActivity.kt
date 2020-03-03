@@ -2,6 +2,7 @@ package com.puldroid.fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,10 +15,15 @@ class MainActivity : AppCompatActivity() {
         val fragment = FirstFragment()
         fragment.arguments = bundle
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, fragment)
-            .commitNow()
+        val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        viewPagerAdapter.apply {
+            add(fragment)
+            add(BlankFragment())
+            add(FirstFragment())
+        }
+        viewPager.adapter = viewPagerAdapter
+        viewPager.setPageTransformer(true,DepthPageTransformer())
+
 
 //        supportFragmentManager
 //            .beginTransaction()
