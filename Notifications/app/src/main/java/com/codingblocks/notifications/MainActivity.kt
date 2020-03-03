@@ -1,5 +1,6 @@
 package com.codingblocks.notifications
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -22,17 +23,32 @@ class MainActivity : AppCompatActivity() {
 
         //Only to work for devices greater than OREO
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            nm.createNotificationChannel(NotificationChannel("first",
-                    "default", NotificationManager.IMPORTANCE_DEFAULT))
+            val channel = (NotificationChannel(
+                "first",
+                "default", NotificationManager.IMPORTANCE_HIGH
+            ))
+            channel.apply {
+                enableLights(true)
+                enableVibration(true)
+            }
+            nm.createNotificationChannel(channel)
         }
 
         button.setOnClickListener {
-            val simpleNotification = NotificationCompat.Builder(this, "first")
-                    .setContentTitle("Simple Title")
-                    .setContentText("This is sample description of the notification")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .build()
+            val builder =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Notification.Builder(this, "first")
+                } else {
+                    Notification.Builder(this)
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setDefaults(Notification.DEFAULT_VIBRATE or Notification.DEFAULT_LIGHTS)
+
+                }
+            val simpleNotification = builder
+                .setContentTitle("Simple Title")
+                .setContentText("This is sample description of the notification")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .build()
 
             nm.notify(1, simpleNotification)
         }
@@ -45,14 +61,14 @@ class MainActivity : AppCompatActivity() {
 
 
             val clickableNotification = NotificationCompat.Builder(this, "first")
-                    .setContentTitle("Simple Title")
-                    .setContentIntent(pi)
-                    .setAutoCancel(true)
-                    .setContentText("This is sample description of the notification")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .build()
-            nm.notify(2,clickableNotification)
+                .setContentTitle("Simple Title")
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .setContentText("This is sample description of the notification")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+            nm.notify(2, clickableNotification)
         }
 
 
@@ -65,17 +81,15 @@ class MainActivity : AppCompatActivity() {
 
 
             val clickableNotification = NotificationCompat.Builder(this, "first")
-                    .setContentTitle("Simple Title")
-                    .addAction(R.drawable.ic_launcher_foreground,"Click Me",pi)
-                    .setAutoCancel(true)
-                    .setContentText("This is sample description of the notification")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .build()
-            nm.notify(3,clickableNotification)
+                .setContentTitle("Simple Title")
+                .addAction(R.drawable.ic_launcher_foreground, "Click Me", pi)
+                .setAutoCancel(true)
+                .setContentText("This is sample description of the notification")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+            nm.notify(3, clickableNotification)
         }
-
-
 
 
     }
