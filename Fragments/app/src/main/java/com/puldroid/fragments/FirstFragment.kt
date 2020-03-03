@@ -20,6 +20,8 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val name = arguments?.getString("KEY")?: "Default"
+        textView.text = name
         button.setOnClickListener {
             Toast.makeText(requireContext(),"Toast from Fragment",Toast.LENGTH_LONG).show()
         }
