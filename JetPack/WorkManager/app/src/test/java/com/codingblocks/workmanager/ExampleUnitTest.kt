@@ -1,4 +1,4 @@
-package com.android.workmanager
+package com.codingblocks.workmanager
 
 import org.junit.Test
 
