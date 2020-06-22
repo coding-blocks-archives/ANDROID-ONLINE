@@ -25,10 +25,10 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/button" />
 
     <EditText
-        android:hint="Hello Enter your nAME"
+        android:hint="@string/hello_enter_your_name"
         android:id="@+id/editTextTextPersonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
        />
 
     <EditText
-        android:hint="Hello Enter your nAME"
+        android:hint="@string/hello_enter_your_name"
         android:id="@+id/editTextTextPersonName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

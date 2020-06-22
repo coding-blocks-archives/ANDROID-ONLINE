@@ -7,4 +7,18 @@
         <item name="colorAccent">@color/teal200</item>
     </style>
 
+    <style name="Theme.App.Default" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple500</item>
+        <item name="colorPrimaryDark">@color/purple700</item>
+        <item name="colorAccent">@color/teal200</item>
+    </style>
+
+    <style name="Theme.App.DefaultBar" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/purple500</item>
+        <item name="colorPrimaryDark">@color/purple700</item>
+        <item name="colorAccent">@color/teal200</item>
+        <item name="android:textSize">40sp</item>
+        <item name="fontFamily">@font/cabin</item>
+    </style>
+
 </resources>

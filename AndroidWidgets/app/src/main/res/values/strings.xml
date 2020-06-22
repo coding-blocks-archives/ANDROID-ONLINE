@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidWidgets</string>
+    <string name="hello_enter_your_name">Hello Enter your nAME</string>
+    <string name="button">Button</string>
 </resources>
